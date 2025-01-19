@@ -1,0 +1,27 @@
+name: Tailscale Chrome VNC - Docker
+
+on: 
+  workflow_dispatch:
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: chuẩn bị phần mềm
+        run: |
+          sudo apt update -y
+          sudo apt install wget curl -y
+          curl -fsSL https://tailscale.com/install.sh | sh
+          sudo tailscale up
+      - name : IP tailscale
+        run : |
+         echo "IP 👇"
+         tailscale ip -4 
+         echo "nhớ kết nổi vs port 5900 (vnc) nha"
+      - name: cài đặt chrome
+        run: |
+          echo " Thiết Lập Ubuntu Kích Hoạt TuNoiDongXanhThomHuonglua"
+          sudo apt update
+          sudo apt install nginx
+          sudo nginx
+          docker run -p 5900:5900 tekfik/chrome
